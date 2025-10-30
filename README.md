@@ -141,6 +141,6 @@ To release a new version of the KSP Maven Plugin, follow these steps:
 2. Deploy the new version to Maven Central:
 
    ```bash
-   mvn deploy -Drevision=x.y.z
+   mvn deploy -Drevision=x.y.z -Prelease
    ```
 
