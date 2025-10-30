@@ -188,11 +188,10 @@ abstract class AbstractKspMojo extends AbstractMojo {
             arguments.add("-source-roots=" + String.join(File.pathSeparator, project.getCompileSourceRoots()));
         }
 
-        arguments.add("-project-base-dir=" + basedir);
-        arguments.add("-output-base-dir=" + buildDirectory);
+        arguments.add("-project-base-dir=" + basedir.getAbsolutePath());
+        arguments.add("-output-base-dir=" + buildDirectory.getAbsolutePath());
 
-
-        arguments.add("-caches-dir=" + generatedSrcDir("caches"));
+        arguments.add("-caches-dir=" + buildDirectory.getAbsoluteFile().toPath().resolve("ksp-caches"));
         arguments.add("-class-output-dir=" + generatedSrcDir("class"));
         arguments.add("-kotlin-output-dir=" + generatedSrcDir("kotlin"));
         arguments.add("-java-output-dir=" + generatedSrcDir("java"));
