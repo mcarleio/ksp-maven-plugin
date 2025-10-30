@@ -7,6 +7,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: release
     permissions:
       contents: read
       packages: write
@@ -26,7 +27,7 @@ jobs:
       - name: Extract release version
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
       - name: Publish to Apache Maven Central
-        run: mvn deploy -Drevision=${RELEASE_VERSION} -Prelease
+        run: mvn --batch-mode deploy -Drevision=${RELEASE_VERSION} -Prelease
         env:
           MAVEN_USERNAME: ${{ secrets.MAVEN_CENTRAL_USER }}
           MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}

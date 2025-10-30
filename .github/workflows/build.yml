@@ -19,4 +19,4 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Run the Maven verify phase
-        run: mvn verify
+        run: mvn --batch-mode verify
