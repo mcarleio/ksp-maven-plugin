@@ -11,6 +11,7 @@
 
     <name>KSP Maven Plugin</name>
     <description>This plugin enables you to execute KSP and is run independently of the Kotlin Compiler</description>
+    <url>https://github.com/mcarleio/ksp-maven-plugin</url>
 
     <properties>
         <maven.version>3.9.11</maven.version>
