@@ -69,7 +69,8 @@ or manually mark those directories as "Generated Sources Root" so that the IDE k
 ## Configuration
 
 The KSP Maven Plugin supports several configuration options that can be defined in the `<configuration>` section of the plugin in your
-`pom.xml`:
+`pom.xml`.
+Most are just [passed to KSP](https://github.com/google/ksp/blob/main/docs/ksp2cmdline.md) itself:
 
 * `jdkHome`
 
