@@ -56,10 +56,10 @@ Kotlin compilation.
 ### Include generated sources in IDE
 
 This plugin generates Kotlin sources into the `target/generated-sources/ksp-kotlin` (or `target/generated-test-sources/ksp-kotlin` for test
-sources) directory.
+sources) directory. Typically your IDE should automatically recognize those directories as source directories.
 
-You may need to manually mark those directories as "Generated Sources Root" in your IDE to ensure that the IDE recognizes the generated
-code.
+In case your IDE does not automatically recognize them, you may need to refresh/reimport the Maven project
+or manually mark those directories as "Generated Sources Root" so that the IDE knows about the generated code.
 
 ## Configuration
 
