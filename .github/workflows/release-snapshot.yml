@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  release-snapshot:
     runs-on: ubuntu-latest
     environment: release
     permissions:
