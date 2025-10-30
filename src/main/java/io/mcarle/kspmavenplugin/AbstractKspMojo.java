@@ -219,9 +219,9 @@ abstract class AbstractKspMojo extends AbstractMojo {
 
     private Path generatedSrcDir(String sub) {
         if (isTestScope()) {
-            return buildDirectory.toPath().resolve("generated-test-sources").resolve("ksp").resolve(sub);
+            return buildDirectory.toPath().resolve("generated-test-sources").resolve("ksp-" + sub);
         } else {
-            return buildDirectory.toPath().resolve("generated-sources").resolve("ksp").resolve(sub);
+            return buildDirectory.toPath().resolve("generated-sources").resolve("ksp-" + sub);
         }
     }
 
