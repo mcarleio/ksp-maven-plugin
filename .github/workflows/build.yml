@@ -1,0 +1,22 @@
+name: Build
+
+on:
+  push:
+    branches: [ '**' ]
+    tags-ignore: [ 'v*' ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      - name: Run the Maven verify phase
+        run: mvn verify

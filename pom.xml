@@ -6,7 +6,7 @@
 
     <groupId>io.mcarle</groupId>
     <artifactId>ksp-maven-plugin</artifactId>
-    <version>${symbol-processing.version}-${revision}</version>
+    <version>${revision}</version>
     <packaging>maven-plugin</packaging>
 
     <name>KSP Maven Plugin</name>
@@ -156,6 +156,12 @@
                                 <goals>
                                     <goal>sign</goal>
                                 </goals>
+                                <configuration>
+                                    <gpgArguments>
+                                        <arg>--pinentry-mode</arg>
+                                        <arg>loopback</arg>
+                                    </gpgArguments>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
@@ -164,6 +170,9 @@
                         <artifactId>central-publishing-maven-plugin</artifactId>
                         <version>0.9.0</version>
                         <extensions>true</extensions>
+                        <configuration>
+                            <publishingServerId>central</publishingServerId>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
