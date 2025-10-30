@@ -29,6 +29,6 @@ jobs:
       - name: Publish to Apache Maven Central
         run: mvn --batch-mode deploy -Drevision=${RELEASE_VERSION} -Prelease
         env:
-          MAVEN_USERNAME: ${{ secrets.MAVEN_CENTRAL_USER }}
+          MAVEN_CENTRAL_USER: ${{ secrets.MAVEN_CENTRAL_USER }}
           MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.SIGN_KEY_PASS }}
