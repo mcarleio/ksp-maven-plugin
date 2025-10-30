@@ -49,6 +49,8 @@ Instead, it is a separate step in the build lifecycle, that runs in advance to t
 This plugin executes KSP in the `generate-sources` phase of the Maven build lifecycle, before the Kotlin compilation takes place.
 
 To do that, it executes a separate Java process that runs the KSP processor(s) on the source files.
+This is required, because each KSP run needs to start with a clean state.
+At least I could not find a way to run KSP multiple times in the same JVM/maven process.
 
 The generated sources are then added to the Maven project as additional source directories, so that they are included in the subsequent
 Kotlin compilation.
