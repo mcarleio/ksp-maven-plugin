@@ -1,5 +1,8 @@
 # KSP Maven Plugin
 
+[![Maven Central][maven-image]][maven-url]
+[![License][license-image]](LICENSE)
+
 This is a Maven plugin for the Kotlin Symbol Processing (KSP) API. It allows you to integrate KSP into your Maven build process, enabling
 you to use KSP processors in your Kotlin projects.
 
@@ -146,3 +149,7 @@ To release a new version of the KSP Maven Plugin, follow these steps:
    mvn deploy -Drevision=x.y.z -Prelease
    ```
 
+
+[maven-image]: https://img.shields.io/maven-central/v/io.mcarle/ksp-maven-plugin.svg
+[maven-url]: https://central.sonatype.com/artifact/io.mcarle/ksp-maven-plugin/
+[license-image]: https://img.shields.io/github/license/mcarleio/ksp-maven-plugin.svg
