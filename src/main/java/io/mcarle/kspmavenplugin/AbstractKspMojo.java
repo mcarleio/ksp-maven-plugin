@@ -1,9 +1,8 @@
 package io.mcarle.kspmavenplugin;
 
-import org.apache.commons.exec.CommandLine;
-import org.apache.commons.exec.DefaultExecutor;
-import org.apache.commons.exec.Executor;
-import org.apache.commons.exec.PumpStreamHandler;
+import com.google.devtools.ksp.impl.KotlinSymbolProcessing;
+import com.google.devtools.ksp.processing.KspGradleLogger;
+import com.google.devtools.ksp.processing.SymbolProcessorProvider;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -13,12 +12,14 @@ import org.apache.maven.project.MavenProject;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.ServiceLoader;
 import java.util.stream.Collectors;
 
 abstract class AbstractKspMojo extends AbstractMojo {
@@ -118,27 +119,7 @@ abstract class AbstractKspMojo extends AbstractMojo {
             return;
         }
 
-        CommandLine commandLine = new CommandLine(determineJavaExecutable());
-        commandLine.addArguments(args(), false);
-
-        PumpStreamHandler psh = new PumpStreamHandler(System.out, System.err, System.in);
-
-        Executor exec = DefaultExecutor.builder()
-            .setWorkingDirectory(basedir)
-            .get();
-
-        exec.setStreamHandler(psh);
-
-        try {
-            try {
-                psh.start();
-                exec.execute(commandLine, System.getenv());
-            } finally {
-                psh.stop();
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        run();
         registerSourceRoot();
     }
 
@@ -164,20 +145,9 @@ abstract class AbstractKspMojo extends AbstractMojo {
         return javaHome;
     }
 
-    private String[] args() {
+    private void run() {
+
         List<String> arguments = new ArrayList<>();
-
-        if (verbose) {
-            arguments.add("-verbose");
-        }
-        if (!Objects.equals(kspLogLevel, "warn")) {
-            arguments.add("-Dksp.logging=" + kspLogLevel);
-        }
-
-        arguments.add("-classpath");
-        arguments.add(classpath());
-
-        arguments.add("com.google.devtools.ksp.cmdline.KSPJvmMain");
 
         arguments.add("-jvm-target=" + jvmTarget);
         arguments.add("-module-name=" + project.getName());
@@ -213,7 +183,47 @@ abstract class AbstractKspMojo extends AbstractMojo {
         arguments.add("-libraries");
         arguments.add(libraries());
 
-        return arguments.toArray(new String[0]);
+        Thread thread = new Thread(() -> {
+            try {
+                var args = arguments.toArray(new String[0]);
+                var config = com.google.devtools.ksp.processing.KspJvmArgParserKt.kspJvmArgParser(args).getFirst();
+
+                var processorClassloader = getClass().getClassLoader();
+
+                var clazz = (Class<SymbolProcessorProvider>) processorClassloader.loadClass("com.google.devtools.ksp.processing.SymbolProcessorProvider");
+
+                @SuppressWarnings("unchecked")
+                var processorProviders = ServiceLoader
+                    .load(clazz, processorClassloader)
+                    .stream()
+                    .map(ServiceLoader.Provider::get)
+                    .collect(Collectors.toList());
+
+                var logger = new KspGradleLogger(KspGradleLogger.LOGGING_LEVEL_WARN);
+                new KotlinSymbolProcessing(config, processorProviders, logger).execute();
+
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        var urls = pluginDependencies.stream().map(it -> {
+            try {
+                return it.getFile().toURI().toURL();
+            } catch (MalformedURLException e) {
+                throw new RuntimeException(e);
+            }
+        }).toArray(i -> new java.net.URL[i]);
+        URLClassLoader cl = new URLClassLoader(urls);
+
+        try (cl) {
+            thread.setContextClassLoader(cl);
+            thread.start();
+            thread.join();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     private Path generatedSrcDir(String sub) {
