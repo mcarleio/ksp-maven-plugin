@@ -14,8 +14,8 @@
     <url>https://github.com/mcarleio/ksp-maven-plugin</url>
 
     <properties>
-        <maven.version>3.9.11</maven.version>
-        <symbol-processing.version>2.3.0</symbol-processing.version>
+        <maven.version>3.9.12</maven.version>
+        <symbol-processing.version>2.3.5</symbol-processing.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
@@ -45,7 +45,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-exec</artifactId>
-            <version>1.5.0</version>
+            <version>1.6.0</version>
         </dependency>
 
         <dependency>
@@ -87,7 +87,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.14.1</version>
+                    <version>3.15.0</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -135,7 +135,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
-                        <version>3.3.1</version>
+                        <version>3.4.0</version>
                         <executions>
                             <execution>
                                 <id>attach-source</id>
@@ -169,7 +169,7 @@
                     <plugin>
                         <groupId>org.sonatype.central</groupId>
                         <artifactId>central-publishing-maven-plugin</artifactId>
-                        <version>0.9.0</version>
+                        <version>0.10.0</version>
                         <extensions>true</extensions>
                         <configuration>
                             <publishingServerId>central</publishingServerId>
