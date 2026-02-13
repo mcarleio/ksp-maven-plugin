@@ -17,7 +17,7 @@ To use the KSP Maven Plugin in your project, you need to add it to your `pom.xml
         <plugin>
             <groupId>io.mcarle</groupId>
             <artifactId>ksp-maven-plugin</artifactId>
-            <version>2.3.0-1</version>
+            <version>2.3.5-1</version>
             <executions>
                 <execution>
                     <goals>
@@ -36,7 +36,7 @@ To use the KSP Maven Plugin in your project, you need to add it to your `pom.xml
                 <dependency>
                     <groupId>io.mcarle</groupId>
                     <artifactId>konvert</artifactId>
-                    <version>4.3.2</version>
+                    <version>4.4.0</version>
                 </dependency>
             </dependencies>
         </plugin>
